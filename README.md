@@ -1,5 +1,5 @@
 # VGC
-Codes for "A Novel Variational Graph Auto-encoder Framework for Effective Graph Embedding and Clustering", submitted.
+Codes for "Variational Graph Auto-encoder Based Graph Embedding for Effective Clustering", submitted.
 
 # Library
 Tensorflow/
