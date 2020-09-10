@@ -3,7 +3,6 @@ Codes for "A Novel Variational Graph Auto-encoder Based Approach to Graph Embedd
 
 # Library
 Tensorflow/
-
 Keras/
 numpy/
 pandas/
@@ -12,7 +11,8 @@ munkres/
 time/
 os/
 etc.
-
+# Note
+Note we use 'vgc' as the module name in the codes, hope that it won't confuse you.
 # Usage
 1. Git clone this repo or just download the zip file, then unzip it.
 2. cd vgc/
