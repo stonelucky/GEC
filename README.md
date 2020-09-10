@@ -1,8 +1,9 @@
-# VGC
-Codes for "Variational Graph Auto-encoder Based Graph Embedding for Effective Clustering", submitted.
+# GEC
+Codes for "A Novel Variational Graph Auto-encoder Based Approach to Graph Embeddingfor Effective Clustering", submitted.
 
 # Library
 Tensorflow/
+
 Keras/
 numpy/
 pandas/
