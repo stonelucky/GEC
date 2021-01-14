@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
-from model import GAE, VGAE, VGC, Discriminator
-from optimizer import OptimizerGAE, OptimizerVGAE, OptimizerARGA, OptimizerARVGA, OptimizerVGC, OptimizerVGCG
+from model import VGC, Discriminator
+from optimizer import OptimizerVGC, OptimizerVGCG
 import scipy.sparse as sp
 from input_data import load_data
 import inspect
@@ -27,13 +27,7 @@ def get_model(model_str, placeholders, num_features, num_nodes, features_nonzero
     discriminator = Discriminator()
     d_real = discriminator.construct(placeholders['real_distribution'])
     model = None
-    if model_str == 'gae' or model_str == 'arga':
-        model = GAE(placeholders, num_features, features_nonzero)
-
-    elif model_str == 'vgae' or model_str == 'arvga':
-        model = VGAE(placeholders, num_features, num_nodes, features_nonzero)
-
-    elif model_str == 'vgc' or model_str == 'vgcg':
+    if model_str == 'vgc' or model_str == 'vgcg':
         model = VGC(placeholders, num_features, num_nodes, features_nonzero, num_classes, cat)
 
     return d_real, discriminator, model
@@ -87,45 +81,11 @@ def format_data(data_name):
     feas['test_edges'] = test_edges
     feas['test_edges_false'] = test_edges_false
     feas['adj_orig'] = adj_orig
-        
-
 
     return feas
 
 def get_optimizer(model_str, model, discriminator, placeholders, pos_weight, norm, d_real,num_nodes):
-    if model_str == 'gae':
-        opt = OptimizerGAE(preds=model.reconstructions,
-                    labels=tf.reshape(tf.sparse_tensor_to_dense(placeholders['adj_orig'],
-                                                                validate_indices=False), [-1]),
-                    pos_weight=pos_weight,
-                    norm=norm)
-    elif model_str == 'vgae':
-        opt = OptimizerVGAE(preds=model.reconstructions,
-                           labels=tf.reshape(tf.sparse_tensor_to_dense(placeholders['adj_orig'],
-                                                                       validate_indices=False), [-1]),
-                           model=model, num_nodes=num_nodes,
-                           pos_weight=pos_weight,
-                           norm=norm)
-
-    elif model_str == 'arga':
-        d_fake = discriminator.construct(model.embeddings, reuse=True)
-        opt = OptimizerARGA(preds=model.reconstructions,
-                          labels=tf.reshape(tf.sparse_tensor_to_dense(placeholders['adj_orig'],
-                                                                      validate_indices=False), [-1]),
-                          pos_weight=pos_weight,
-                          norm=norm,
-                          d_real=d_real,
-                          d_fake=d_fake)
-    elif model_str == 'arvga':
-        opt = OptimizerARVGA(preds=model.reconstructions,
-                           labels=tf.reshape(tf.sparse_tensor_to_dense(placeholders['adj_orig'],
-                                                                       validate_indices=False), [-1]),
-                           model=model, num_nodes=num_nodes,
-                           pos_weight=pos_weight,
-                           norm=norm,
-                           d_real=d_real,
-                           d_fake=discriminator.construct(model.embeddings, reuse=True))
-    elif model_str == 'vgc':
+    if model_str == 'vgc':
         opt = OptimizerVGC(preds=model.reconstructions,
                             labels=tf.reshape(tf.sparse_tensor_to_dense(placeholders['adj_orig'],
                                                                         validate_indices=False), [-1]),

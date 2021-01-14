@@ -9,9 +9,9 @@ import time
 
 start = time.clock()
 
-dataname = 'citeseer'       # {'cora', 'citeseer', 'pubmed', 'blog', 'flickr', 'cornell', 'texas', 'washington', 'wisconsin'}
-model = 'gae'          # 'gae' or 'vgae' or 'arga' or 'arvga' or 'vgc' or 'vgcg'
-task = 'visualization'         # 'clustering' or 'link_prediction' or 'visualization'
+dataname = 'citeseer'      # {'cora', 'citeseer', 'pubmed'}
+model = 'vgc'          # 'vgc' or 'vgcg'
+task = 'clustering'    # 'clustering' or 'link_prediction' or 'visualization'
 
 settings_ = settings.get_settings(dataname, model, task)
 
